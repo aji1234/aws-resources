@@ -1,0 +1,23 @@
+import boto3
+
+ec2 = boto3.resource('ec2')
+
+def lambda_handler(event, context):
+    filter = [
+        {
+            'Name' : 'tag:Type',
+            'Values' : ['Scheduled']
+        }
+        ]
+    #instances = ec2.instances.filter(Filters=filter)
+    
+    ids = ['i-0f1e69a945a0d00d1']
+    instances = ec2.instances.filter(InstanceIds=ids)
+    for instance in instances:
+        instance.start()
+        print('\n')
+        print('Instance ID        ', 'Instance_type')
+#               i-0f1e69a945a0d00d1
+        print(instance.id, instance.instance_type)
+        print('\n')
+    return 'Success'
